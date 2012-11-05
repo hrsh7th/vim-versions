@@ -59,7 +59,7 @@ function! unite#kinds#versions#git#log#diff(candidate)
 
   call versions#diff#file_with_string(candidate.source__args.path, {
         \   'name': printf('[REMOTE: %s] %s', candidate.action__log.revision, candidate.source__args.path),
-        \   'string': versions#command('cat', {
+        \   'string': versions#command('show', {
         \     'path': candidate.source__args.path,
         \     'revision': candidate.action__log.revision,
         \   }, {
