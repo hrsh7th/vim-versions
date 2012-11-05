@@ -1,0 +1,173 @@
+*versions.txt* バージョン管理システムの機能を vim から呼び出します。
+
+Author  : hrsh7th <hrsh7th@gmail.com>
+Updated : 2012-11-04
+Version : 0.0.1
+License : MIT license {{{
+	Permission is hereby granted, free of charge, to any person obtaining
+	a copy of this software and associated documentation files (the
+	"Software"), to deal in the Software without restriction, including
+	without limitation the rights to use, copy, modify, merge, publish,
+	distribute, sublicense, and/or sell copies of the Software, and to
+	permit persons to whom the Software is furnished to do so, subject to
+	the following conditions:
+	The above copyright notice and this permission notice shall be
+	included in all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+	CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+	TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+目次				*versions-contents*
+	概要			|versions-introduction|
+	使い方			|versions-usage|
+	設定			|versions-interface|
+	  コマンド		  |versions-commands|
+	  変数			  |versions-variables|
+	  関数			  |versions-functions|
+	  設定例		  |versions-settings-example|
+	TODO			|versions-todo|
+	更新履歴		|versions-changelog|
+
+==============================================================================
+概要					*versions-introduction*
+
+
+==============================================================================
+使い方					*versions-usage*
+
+
+==============================================================================
+インターフェース		*versions-interface*
+
+------------------------------------------------------------------------------
+コマンド				*versions-commands*
+
+	UniteVersions {command}:{path}
+		自動的にバージョン管理システムのタイプを判別し、
+		指定した {command} に対応する unite-source を実行します。
+		現在利用できる {command} はバージョン管理システム毎に以下となります。
+
+			SVN
+				- status
+				- log
+				- changeset
+			GIT
+				- status
+				- log
+				- changeset
+
+		また、{path} には以下の特殊な値を指定することができます。
+
+			%
+				- カレントバッファのパスを引数として用います。
+			!
+				- カレントバッファのパスを元に、バージョン管理システムのルートディレクトリを引数として用います。
+
+------------------------------------------------------------------------------
+変数					*versions-variables*
+
+GLOBAL
+	|g:versions#debug|
+		この変数に 1 を代入すると、デバッグ情報を出力します。
+		デバッグ情報とは以下の情報を指します。
+			- 実行した execute コマンドの引数
+			- 実行した system コマンドの引数
+		通常はこの変数を 1 にする必要はありません。
+		デフォルトは 0 です。
+
+SVN
+	|g:versions#type#svn#commit#filename|
+		コミット時に作成される一時ファイルの名前です。
+		デフォルトは svn-commit.tmp です。
+
+	|g:versions#type#svn#commit#editorcmd|
+		一時ファイルを作成するために利用される svn コマンドの引数 --editor-cmd の値です。
+		デフォルトは vim です。
+
+	|g:versions#type#svn#commit#ignore|
+		コミットメッセージとステータス情報とのセパレータです。
+		この変数の文字列以降のコミットメッセージは無視されます。
+		デフォルトは --This line, and those below, will be ignored-- です。
+
+	|g:versions#type#svn#log#limit|
+		svn log を実行する際に利用されるデフォルトの --limit の値です。
+		デフォルトは 1000 です。
+
+	|g:versions#type#svn#log#stop_on_copy|
+		svn log を実行する際に --stop-on-copy を有効とするかどうかです。
+		デフォルトは 1 です。
+
+GIT
+	|g:versions#type#git#commit#filepath|
+		コミット時に作成される一時ファイルの書き込みパスです。
+		コマンド実行中のリポジトリのルートディレクトリを基準とします。
+		デフォルトは .git です。
+
+------------------------------------------------------------------------------
+関数					*versions-functions*
+
+GLOBAL
+	versions#command({command}, {command_args}, {global_args})
+		概要:
+			指定したコマンドを、global_args.working_dir において実行します。
+		引数:
+			command:
+				実行するコマンドを与えます。(status, log, ...)
+				バージョン管理システムのタイプによって、利用できるコマンドが決まります。
+			command_args:
+				コマンドに与える引数です。
+				詳細は各コマンドが対応する関数にあります。
+			global_args:
+				どのコマンドにも適用できる引数です。
+				現在は global_args.working_dir のみ与えることができます。
+				与えられなかった場合は、自動的にカレントバッファのパスが利用されます。
+
+SVN
+	versions#type#svn#commit#do({ 'paths': [] })
+		引数 args.paths に指定したファイルをコミットします。
+
+	versions#type#svn#status#do({ 'path': [] })
+		引数 args.path に指定したディレクトリ以下の status を返します。
+
+------------------------------------------------------------------------------
+設定例					*versions-setting-expample*
+>
+	" 編集中ファイルが所属するリポジトリの変更点一覧を表示する
+	nnoremap uvs UniteVersions status:!
+
+	" 編集中ファイルのログ一覧を表示する
+	nnoremap uvl UniteVersions log:%
+<
+
+==============================================================================
+TODO					*versions-todo*
+
+	* unite への完全依存をなくす(quickfix/buffer への結果出力)
+
+	* versions#command('info', ...) の実装
+
+	* hg 対応は欲しい人が多そうなら...
+
+==============================================================================
+更新履歴				*versions-changelog*
+
+0.0.1	2012-11-05
+	* git でのコミット時に差分を表示する機能を追加
+	* vim-ft-svn_diff plugin に対応
+
+0.0.1	2012-11-04
+	* versions#type#git#commit の、コミットメッセージバッファでのカーソル位置を調整
+	* versions/git/changeset/log kind の diff/diff_prev アクションの is_quit の値を調整
+	* versions/svn/changeset/log kind の diff/diff_prev アクションの is_quit の値を調整
+	* versions/git/changeset kind の diff/diff_prev アクションの不具合修正
+	* versions/svn/changeset kind の diff/diff_prev アクションの不具合修正
+	* versions/git/changeset kind の diff/diff_prev アクションの不具合修正
+	* 最初のバージョン
+
+vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:fdm=marker:
