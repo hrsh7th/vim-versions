@@ -97,6 +97,22 @@ function! s:kind.action_table.revert.func(candidates)
   call vital#versions#echomsgs(messages)
 endfunction
 
+let s:kind.action_table.resolved = {
+      \ 'description': 'resolved status.',
+      \ 'is_selectable': 1,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.resolved.func(candidates)
+  let candidates = vital#versions#is_list(a:candidates) ? a:candidates : [a:candidates]
+  let messages = versions#command('resolved', {
+        \   'paths': map(deepcopy(candidates), 'v:val.action__status.path')
+        \ }, {
+        \   'working_dir': fnamemodify(candidates[0].source__args.path, ':p:h')
+        \ })
+  call vital#versions#echomsgs(messages)
+endfunction
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
 
