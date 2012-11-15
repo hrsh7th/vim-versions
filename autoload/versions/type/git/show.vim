@@ -10,8 +10,7 @@ function! versions#type#git#show#do(args)
 
   let output = vital#versions#system(printf('git show %s',
         \ revision . ':' . vital#versions#substitute_path_separator(path)))
-  return substitute(vital#versions#trim_cr(output),
-        \ '\n$', '', 'g')
+  return vital#versions#trim_cr(output)
 endfunction
 
 let &cpo = s:save_cpo

@@ -11,8 +11,7 @@ function! versions#type#svn#cat#do(args)
 
   let output = vital#versions#system(printf('svn cat --revision %s %s',
         \ revision,  path))
-  return substitute(vital#versions#trim_cr(output),
-        \ '\n$', '', 'g')
+  return vital#versions#trim_cr(output)
 endfunction
 
 let &cpo = s:save_cpo
