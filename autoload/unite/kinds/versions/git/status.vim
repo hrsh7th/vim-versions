@@ -65,22 +65,6 @@ function! s:kind.action_table.checkout.func(candidates)
   call vital#versions#echomsgs(messages)
 endfunction
 
-let s:kind.action_table.reset = {
-      \ 'description': 'reset status.',
-      \ 'is_selectable': 1,
-      \ 'is_invalidate_cache': 1,
-      \ 'is_quit': 0,
-      \ }
-function! s:kind.action_table.reset.func(candidates)
-  let candidates = vital#versions#is_list(a:candidates) ? a:candidates : [a:candidates]
-  let messages = versions#command('reset', {
-        \   'paths': map(deepcopy(candidates), 'v:val.action__status.path')
-        \ }, {
-        \   'working_dir': fnamemodify(candidates[0].source__args.path, ':p:h')
-        \ })
-  call vital#versions#echomsgs(messages)
-endfunction
-
 let s:kind.action_table.add = {
       \ 'description': 'add status.',
       \ 'is_selectable': 1,
@@ -90,6 +74,22 @@ let s:kind.action_table.add = {
 function! s:kind.action_table.add.func(candidates)
   let candidates = vital#versions#is_list(a:candidates) ? a:candidates : [a:candidates]
   let messages = versions#command('add', {
+        \   'paths': map(deepcopy(candidates), 'v:val.action__status.path')
+        \ }, {
+        \   'working_dir': fnamemodify(candidates[0].source__args.path, ':p:h')
+        \ })
+  call vital#versions#echomsgs(messages)
+endfunction
+
+let s:kind.action_table.reset = {
+      \ 'description': 'reset status.',
+      \ 'is_selectable': 1,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.reset.func(candidates)
+  let candidates = vital#versions#is_list(a:candidates) ? a:candidates : [a:candidates]
+  let messages = versions#command('reset', {
         \   'paths': map(deepcopy(candidates), 'v:val.action__status.path')
         \ }, {
         \   'working_dir': fnamemodify(candidates[0].source__args.path, ':p:h')

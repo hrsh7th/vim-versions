@@ -38,6 +38,53 @@ function! s:kind.action_table.yank_prev_revision.func(candidates)
   call vital#versions#yank(candidate.action__log.prev_revision)
 endfunction
 
+let s:kind.action_table.reset = {
+      \ 'description': 'reset revision.',
+      \ 'is_selectable': 0,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.reset.func(candidates)
+  let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
+  call versions#command('reset', {
+        \   'revision': candidate.action__log.revision
+        \ }, {
+        \   'working_dir': fnamemodify(candidate.source__args.path, ':p:h')
+        \ })
+endfunction
+
+let s:kind.action_table.reset_soft = {
+      \ 'description': 'reset revision with soft.',
+      \ 'is_selectable': 0,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.reset_soft.func(candidates)
+  let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
+  call versions#command('reset', {
+        \   'revision': candidate.action__log.revision,
+        \   'soft': 1
+        \ }, {
+        \   'working_dir': fnamemodify(candidate.source__args.path, ':p:h')
+        \ })
+endfunction
+
+let s:kind.action_table.reset_hard = {
+      \ 'description': 'reset revision with hard.',
+      \ 'is_selectable': 0,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.reset_hard.func(candidates)
+  let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
+  call versions#command('reset', {
+        \   'revision': candidate.action__log.revision,
+        \   'hard': 1
+        \ }, {
+        \   'working_dir': fnamemodify(candidate.source__args.path, ':p:h')
+        \ })
+endfunction
+
 let s:kind.action_table.diff = {
       \ 'description': 'display diff.',
       \ 'is_selectable': 0,
