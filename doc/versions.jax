@@ -139,10 +139,10 @@ SVN
 設定例					*versions-setting-expample*
 >
 	" 編集中ファイルが所属するリポジトリの変更点一覧を表示する
-	nnoremap uvs UniteVersions status:!
+	nnoremap <Leader>uvs UniteVersions status:!
 
 	" 編集中ファイルのログ一覧を表示する
-	nnoremap uvl UniteVersions log:%
+	nnoremap <Leader>uvl UniteVersions log:%
 <
 
 ==============================================================================
