@@ -1,8 +1,8 @@
 *versions.txt* バージョン管理システムの機能を vim から呼び出します。
 
 Author  : hrsh7th <hrsh7th@gmail.com>
-Updated : 2012-11-04
-Version : 0.0.1
+Updated : 2012-11-21
+Version : 0.0.2
 License : MIT license {{{
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files (the
@@ -127,6 +127,14 @@ GLOBAL
 				どのコマンドにも適用できる引数です。
 				現在は global_args.working_dir のみ与えることができます。
 				与えられなかった場合は、自動的にカレントバッファのパスが利用されます。
+				
+	versions#info()
+		概要:
+			カレントディレクトリにおける、バージョン管理システムの情報を表示します。
+			カレントディレクトリがバージョン管理システム下でない場合、空文字を返します。
+			
+			各バージョン管理システムのタイプ毎にフォーマット文字列を指定できます。
+			ex) g:versions#info.git = '(%s) - (%b)'
 
 SVN
 	versions#type#svn#commit#do({ 'paths': [] })
@@ -150,12 +158,13 @@ TODO					*versions-todo*
 
 	* unite への完全依存をなくす(quickfix/buffer への結果出力)
 
-	* versions#command('info', ...) の実装
-
 	* hg 対応は欲しい人が多そうなら...
 
 ==============================================================================
 更新履歴				*versions-changelog*
+
+0.0.2	2012-11-21
+	* versions#info を実装
 
 0.0.1	2012-11-20
 	* versions#type#git#log をリポジトリルートで実行した際に、マージのログが出ない事がある不具合を修正

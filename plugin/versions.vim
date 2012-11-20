@@ -7,12 +7,6 @@ set cpo&vim
 
 let g:loaded_versions = 1
 
-" TODO: refactor.
-let s:types = [
-      \ 'svn',
-      \ 'git',
-      \ ]
-
 command! -nargs=1 UniteVersions call s:unite_versions(<q-args>)
 function! s:unite_versions(args)
   let args = split(a:args, ':')
@@ -21,7 +15,7 @@ function! s:unite_versions(args)
     return unite#start([['versions']])
   endif
 
-  for type in s:types
+  for type in keys(g:versions#type)
     if {'unite#sources#versions#' . type . '#' . args[0] . '#check'}(type, args[1:])
       return unite#start([[printf('versions/%s/%s',
             \   type,
