@@ -35,7 +35,7 @@ function! versions#get_relative_path(path)
   if fnamemodify(getcwd(), ':p') != fnamemodify(a:path, ':p')
     return './' . fnamemodify(a:path, ':.')
   endif
-  return './'
+  return ''
 endfunction
 
 function! versions#get_root_dir(path)

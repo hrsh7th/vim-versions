@@ -157,6 +157,9 @@ TODO					*versions-todo*
 ==============================================================================
 更新履歴				*versions-changelog*
 
+0.0.1	2012-11-20
+	* versions#type#git#log をリポジトリルートで実行した際に、マージのログが出ない事がある不具合を修正
+
 0.0.1	2012-11-17
 	* versions/git/log kind に reset アクションを追加
 	* versions/git/log kind に reset_soft アクションを追加
