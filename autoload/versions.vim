@@ -2,28 +2,25 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 call vital#versions#define(g:, 'versions#debug', 0)
-
-" TODO: refactor.
-let s:types = [
-      \ 'git',
-      \ 'svn',
-      \ ]
-
-" TODO: refactor.
-let s:type_dir_map = {
+call vital#versions#define(g:, 'versions#type', {
       \ 'git': '.git',
       \ 'svn': '.svn',
-      \ }
+      \ })
 
 let s:type_cache = {}
-
 function! versions#get_type(path)
   let path = fnamemodify(vital#versions#substitute_path_separator(a:path), ':p:h')
-  for type in s:types
-    if executable(type) && finddir(s:type_dir_map[type], path . ';', ':p:h:h') != ''
+
+  if exists('s:type_cache[path]') && s:type_cache[path] != ''
+    return s:type_cache[path]
+  endif
+
+  for type in keys(g:versions#type)
+    if executable(type) && finddir(g:versions#type[type], path . ';', ':p:h:h') != ''
       let s:type_cache[path] = type
     endif
   endfor
+
   return get(s:type_cache, path, '')
 endfunction
 
@@ -40,12 +37,12 @@ endfunction
 
 function! versions#get_root_dir(path)
   let type = versions#get_type(a:path)
-  if !exists('s:type_dir_map[type]')
+  if !exists('g:versions#type[type]')
     throw 'versions#get_root_dir: vcs not detected.'
   endif
 
   let path = fnamemodify(vital#versions#substitute_path_separator(a:path), ':p')
-  while finddir(s:type_dir_map[type], fnamemodify(path, ':p:h:h') . ';') != ''
+  while finddir(g:versions#type[type], fnamemodify(path, ':p:h:h') . ';') != ''
     let path = fnamemodify(path, ':p:h:h')
   endwhile
   return vital#versions#trim_right(vital#versions#substitute_path_separator(path), '/')
