@@ -1,8 +1,8 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! versions#type#git#info#do(args)
-  let format = get(a:args, 'format', g:versions#info.git)
+function! versions#type#svn#info#do(args)
+  let format = get(a:args, 'format', g:versions#info.svn)
 
   let cnt = 0
   let max = len(format)
@@ -15,21 +15,13 @@ function! versions#type#git#info#do(args)
       if part == '%'
         let info .= '%'
 
-      " %b : current branch name.
-      elseif part == 'b'
-        let info .= vital#versions#system('git symbolic-ref --short HEAD')
-
-      " %r : repository name.
-      elseif part == 'r'
-        let info .= '' " TODO
-
       " %R : path to repository root.
       elseif part == 'R'
         let info .= versions#get_root_dir(getcwd())
 
       " %s : VCS name.
       elseif part == 's'
-        let info .= 'git'
+        let info .= 'svn'
 
       " ignore.
       else

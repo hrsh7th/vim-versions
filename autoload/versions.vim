@@ -7,8 +7,8 @@ call vital#versions#define(g:, 'versions#type', {
       \ 'svn': '.svn',
       \ })
 call vital#versions#define(g:, 'versions#info', {
-      \ 'git': '(%b)',
-      \ 'svn': '',
+      \ 'git': '(%s)-(%b)',
+      \ 'svn': '(%s)',
       \ })
 
 let s:type_cache = {}
@@ -95,6 +95,9 @@ function! versions#info()
           \ [{ 'format': g:versions#info[type] }],
           \ getcwd())
   catch
+    if g:versions#debug
+      echomsg v:exception
+    endif
   endtry
   return ''
 endfunction
@@ -104,6 +107,10 @@ function! versions#call(function, args, working_dir)
   call vital#versions#execute('lcd', a:working_dir)
   try
     let result = call(a:function, a:args)
+  catch
+    if g:versions#debug
+      echomsg v:exception
+    endif
   finally
     call vital#versions#execute('lcd', current_dir)
   endtry
