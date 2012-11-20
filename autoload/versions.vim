@@ -6,6 +6,10 @@ call vital#versions#define(g:, 'versions#type', {
       \ 'git': '.git',
       \ 'svn': '.svn',
       \ })
+call vital#versions#define(g:, 'versions#info', {
+      \ 'git': '(%b)',
+      \ 'svn': '',
+      \ })
 
 let s:type_cache = {}
 function! versions#get_type(path)
@@ -78,6 +82,21 @@ function! versions#command(command, command_args, global_args)
         \   [vital#versions#is_dict(a:command_args) ? filter(a:command_args, "!vital#versions#is_empty(v:val)") : {}],
         \   working_dir
         \ )
+endfunction
+
+function! versions#info()
+  let type = versions#get_type(getcwd())
+  if type == ''
+    return ''
+  endif
+  try
+    let function_name = printf('versions#type#%s#info#do', type)
+    return versions#call(function(function_name),
+          \ [{ 'format': g:versions#info[type] }],
+          \ getcwd())
+  catch
+  endtry
+  return ''
 endfunction
 
 function! versions#call(function, args, working_dir)
