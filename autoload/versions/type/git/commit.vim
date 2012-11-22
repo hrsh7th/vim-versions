@@ -28,6 +28,7 @@ function! versions#type#git#commit#do(args)
   silent % delete _
   put=output
   call setpos('.', [bufnr('%'), 0, 0])
+  set nomodified
 
   let b:versions = {
         \ 'context': {
