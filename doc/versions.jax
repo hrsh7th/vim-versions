@@ -1,8 +1,8 @@
 *versions.txt* バージョン管理システムの機能を vim から呼び出します。
 
 Author  : hrsh7th <hrsh7th@gmail.com>
-Updated : 2012-11-22
-Version : 0.0.2
+Updated : 2012-11-25
+Version : 0.0.3
 License : MIT license {{{
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files (the
@@ -58,6 +58,7 @@ License : MIT license {{{
 				- log
 				- changeset
 			GIT
+				- branch
 				- status
 				- log
 				- changeset
@@ -68,6 +69,10 @@ License : MIT license {{{
 				- カレントバッファのパスを引数として用います。
 			!
 				- カレントバッファのパスを元に、バージョン管理システムのルートディレクトリを引数として用います。
+
+		また、何も指定せずにこのコマンドを実行した場合、
+		カレントディレクトリが属するバージョン管理システムで実行可能な unite-source の一覧を列挙します。
+
 
 ------------------------------------------------------------------------------
 変数					*versions-variables*
@@ -146,6 +151,9 @@ SVN
 ------------------------------------------------------------------------------
 設定例					*versions-setting-expample*
 >
+	" カレントディレクトリで実行可能な unite-source 一覧を列挙します。
+	nnoremap <Leader>uv<CR> :<C-u>UniteVersions
+
 	" 編集中ファイルが所属するリポジトリの変更点一覧を表示する
 	nnoremap <Leader>uvs :<C-u>UniteVersions status:!
 
@@ -162,6 +170,9 @@ TODO					*versions-todo*
 
 ==============================================================================
 更新履歴				*versions-changelog*
+
+0.0.3	2012-11-25
+	* git の branch 操作に対応
 
 0.0.2	2012-11-22
 	* git のコミット時のメッセージバッファを nomodified にする修正
