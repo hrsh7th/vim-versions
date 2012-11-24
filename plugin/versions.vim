@@ -7,9 +7,9 @@ set cpo&vim
 
 let g:loaded_versions = 1
 
-command! -nargs=1 UniteVersions call s:unite_versions(<q-args>)
+command! -nargs=* UniteVersions call s:unite_versions(<q-args>)
 function! s:unite_versions(args)
-  let args = split(a:args, ':')
+  let args = split(get(a:, 'args', ''), ':')
 
   if empty(args)
     return unite#start([['versions']])
