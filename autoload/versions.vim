@@ -108,6 +108,7 @@ function! versions#call(function, args, working_dir)
   try
     let result = call(a:function, a:args)
   catch
+    let result = ''
     if g:versions#debug
       echomsg v:exception
     endif
