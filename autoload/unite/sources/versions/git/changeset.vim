@@ -17,6 +17,7 @@ let s:source = {
       \ 'name': 'versions/git/changeset',
       \ 'description': 'vcs repository changeset.',
       \ 'hooks': {},
+      \ 'is_listed': 0,
       \ }
 
 function! s:source.hooks.on_init(args, context)

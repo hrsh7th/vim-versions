@@ -24,7 +24,7 @@ function! s:source.gather_candidates(args, context)
 
   call unite#print_message('[versions] type: ' . versions#get_type(path))
 
-  return map(sources, "{
+  return map(filter(sources, 'v:val.is_listed'), "{
         \ 'word': vital#versions#trim_left(v:val.name, printf('versions/%s/', versions#get_type(path))),
         \ 'action__source_name': v:val.name,
         \ 'action__source_args': a:args,

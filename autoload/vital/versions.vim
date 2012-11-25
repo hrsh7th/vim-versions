@@ -61,7 +61,7 @@ function! vital#versions#system(...)
   if g:versions#debug
     echomsg a:000[0]
   endif
-  return call(s:V.system, a:000)
+  return vital#versions#trim_cr(call(s:V.system, a:000))
 endfunction
 
 function! vital#versions#execute(...)
