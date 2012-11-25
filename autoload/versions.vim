@@ -75,8 +75,11 @@ function! versions#command(command, command_args, global_args)
   endif
 
   " do command.
-  let function_name = printf('versions#type#%s#%s#do',
-        \ versions#get_type(working_dir), a:command)
+  let command = split(a:command, ':')
+  let function_name = printf('versions#type#%s#%s#%s',
+        \ versions#get_type(working_dir),
+        \ get(command, 0, ''),
+        \ get(command, 1, 'do'))
   return versions#call(
         \   function(function_name),
         \   [vital#versions#is_dict(a:command_args) ? filter(a:command_args, "!vital#versions#is_empty(v:val)") : {}],

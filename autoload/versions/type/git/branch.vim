@@ -1,38 +1,72 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-" TODO: redesign.
-" versions#command('branch', {}) #=> versions#type#git#branch#do(args)
-" versions#command('branch:list', { }) #=> versions#type#git#branch#list(args)
-" versions#command('branch:delete', { 'branch': 'master' }) #=> versions#type#git#branch#delete(args)
+" branch:do -> branch:create.
 function! versions#type#git#branch#do(args)
-  " for delete.
-  if get(a:args, 'delete', '') != ''
-    let output = vital#versions#system(printf('git branch -D %s', a:args.delete))
-    return vital#versions#trim_cr(output)
-
-  " for list.
-  elseif get(a:args, 'list', '') != ''
-    let output = vital#versions#system('git branch')
-    return map(split(output, "\n"), 'versions#type#git#branch#convert(v:val)')
-
-  " for create.
-  else
-    if get(a:args, 'name', '') == ''
-      throw 'branch name not given.'
-    endif
-    let output = vital#versions#system(printf('git branch %s', a:args.name))
-    return vital#versions#trim_cr(output)
-  endif
+  return versions#type#git#branch#create(a:args)
 endfunction
 
-function! versions#type#git#branch#convert(line)
+" branch:create.
+function! versions#type#git#branch#create(args)
+  let branch = get(a:args, 'branch', '')
+  let branch = branch != '' ? branch : s:input(1)
+
+  if branch == ''
+    return
+  endif
+
+  return vital#versions#trim_cr(
+        \   vital#versions#system(printf('git branch %s', branch))
+        \ )
+endfunction
+
+" branch:delete.
+function! versions#type#git#branch#delete(args)
+  let branch = get(a:args, 'branch', '')
+  let branch = branch != '' ? branch : s:input(0)
+
+  if branch == ''
+    return
+  endif
+
+  return vital#versions#trim_cr(
+        \   vital#versions#system(printf('git branch -D %s', branch))
+        \ )
+endfunction
+
+" branch:list.
+function! versions#type#git#branch#list(...)
+  return map(split(vital#versions#system('git branch'), "\n"),
+        \   'versions#type#git#branch#create_branch(v:val)'
+        \)
+endfunction
+
+function! versions#type#git#branch#create_branch(line)
   let mark = strpart(a:line, 0, 2)
   let name = strpart(a:line, 2)
   return {
         \ 'name': name,
         \ 'is_current': mark =~# '\*',
         \ }
+endfunction
+
+function! s:input(force)
+  echomsg '--- branches. ---'
+  for _ in versions#type#git#branch#list()
+    echomsg (_.is_current ? ' * ' : '   ') . _.name
+  endfor
+  echomsg '-----------------'
+
+  while 1
+    let branch = input('[branch name] ')
+    if branch == ''
+      echomsg 'canceled.'
+      return
+    endif
+    if a:force || !empty(filter(branches, 'v:val.name == branch'))
+      return branch
+    endif
+  endwhile
 endfunction
 
 let &cpo = s:save_cpo

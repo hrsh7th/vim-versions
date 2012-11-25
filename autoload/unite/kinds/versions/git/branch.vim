@@ -19,8 +19,7 @@ let s:kind.action_table.unite__new_candidate = {
       \ }
 function! s:kind.action_table.unite__new_candidate.func(candidates)
   let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
-  let name = input('branch name: ')
-  let output = versions#command('branch', { 'name': name, }, {
+  let output = versions#command('branch', {}, {
         \ 'working_dir': candidate.source__args.path
         \ })
   call vital#versions#echomsgs(output)
@@ -28,19 +27,22 @@ endfunction
 
 let s:kind.action_table.delete = {
       \ 'description': 'delete branch.',
-      \ 'is_selectable': 0,
+      \ 'is_selectable': 1,
       \ 'is_invalidate_cache': 1,
       \ 'is_quit': 0,
       \ }
 function! s:kind.action_table.delete.func(candidates)
-  let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
-  if candidate.action__branch.is_current
-    echoerr 'can not delete current branch.'
-  endif
-  let output = versions#command('branch', { 'delete': candidate.action__branch.name, }, {
-        \ 'working_dir': candidate.source__args.path
-        \ })
-  call vital#versions#echomsgs(output)
+  let candidates = vital#versions#is_list(a:candidates) ? a:candidates : [a:candidates]
+  for candidate in candidates
+    if candidate.action__branch.is_current
+      echoerr 'can not delete current branch.'
+    endif
+
+    let output = versions#command('branch:delete', { 'branch': candidate.action__branch.name }, {
+          \ 'working_dir': candidate.source__args.path
+          \ })
+    call vital#versions#echomsgs(output)
+  endfor
 endfunction
 
 let s:kind.action_table.checkout = {

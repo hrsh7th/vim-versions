@@ -33,9 +33,7 @@ function! s:source.gather_candidates(args, context)
 
   call unite#print_message('[versions/branch] type: ' . versions#get_type(path))
 
-  " TODO: refactor.
-  " versions#command('branch:list', {}, {...})
-  let branches = versions#command('branch', { 'list': 1 }, {
+  let branches = versions#command('branch:list', {}, {
         \   'working_dir': fnamemodify(path, ':p:h')
         \ })
   return map(branches, "{

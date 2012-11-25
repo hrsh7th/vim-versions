@@ -173,6 +173,7 @@ TODO					*versions-todo*
 
 0.0.3	2012-11-25
 	* git の branch 操作に対応
+	* branch 周りのリファクタリング
 
 0.0.2	2012-11-22
 	* git のコミット時のメッセージバッファを nomodified にする修正
