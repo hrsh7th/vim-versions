@@ -113,6 +113,12 @@ GIT
 		コミット時に作成される一時ファイルの書き込みパスです。
 		コマンド実行中のリポジトリのルートディレクトリを基準とします。
 		デフォルトは .git です。
+		
+Powerline
+	|g:Powerline#Functions#versions#GetBranchLifeTime
+		Powerline において、ブランチ名表示を何秒間毎に更新するかを決める値です。	
+		デフォルトは 30 です。
+
 
 ------------------------------------------------------------------------------
 関数					*versions-functions*
@@ -159,6 +165,9 @@ SVN
 
 	" 編集中ファイルのログ一覧を表示する
 	nnoremap <Leader>uvl :<C-u>UniteVersions log:%
+
+	" ステータスラインにブランチ名を表示する(別途、Powerline プラグインが必要)
+	call Pl#Theme#InsertSegment('versions:branch', 'after', 'filetype')
 <
 
 ==============================================================================
