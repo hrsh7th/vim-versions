@@ -108,6 +108,11 @@ SVN
 		svn log を実行する際に --stop-on-copy を有効とするかどうかです。
 		デフォルトは 1 です。
 
+	|g:versions#type#svn#status#ignore_status|
+		svn status において、表示したくない status を配列で指定します。
+		デフォルトは [] です。
+		ex) let g:versions#type#svn#status#ignore_status = ['X']
+
 GIT
 	|g:versions#type#git#commit#filepath|
 		コミット時に作成される一時ファイルの書き込みパスです。
@@ -115,7 +120,7 @@ GIT
 		デフォルトは .git です。
 		
 Powerline
-	|g:Powerline#Functions#versions#GetBranchLifeTime
+	|g:Powerline#Functions#versions#GetBranchLifeTime|
 		Powerline において、ブランチ名表示を何秒間毎に更新するかを決める値です。	
 		デフォルトは 30 です。
 
@@ -181,6 +186,10 @@ TODO					*versions-todo*
 
 ==============================================================================
 更新履歴				*versions-changelog*
+
+0.0.3	2012-11-28
+	* versions#type#svn#status に、特定のステータスを無視する機能を追加(externals がうざい時向け)
+	* git の branch 操作に、merge と push を追加
 
 0.0.3	2012-11-26
 	* Powerline にブランチを表示できる機能を追加

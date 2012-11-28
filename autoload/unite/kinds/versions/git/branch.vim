@@ -45,6 +45,34 @@ function! s:kind.action_table.delete.func(candidates)
   endfor
 endfunction
 
+let s:kind.action_table.push = {
+      \ 'description': 'push branch.',
+      \ 'is_selectable': 0,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.push.func(candidates)
+  let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
+  let output = versions#command('branch:push', { 'branch': candidate.action__branch.name, }, {
+        \ 'working_dir': candidate.source__args.path
+        \ })
+  call vital#versions#echomsgs(output)
+endfunction
+
+let s:kind.action_table.merge = {
+      \ 'description': 'merge branch.',
+      \ 'is_selectable': 0,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.merge.func(candidates)
+  let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
+  let output = versions#command('branch:merge', { 'branch': candidate.action__branch.name, }, {
+        \ 'working_dir': candidate.source__args.path
+        \ })
+  call vital#versions#echomsgs(output)
+endfunction
+
 let s:kind.action_table.checkout = {
       \ 'description': 'checkout branch.',
       \ 'is_selectable': 0,

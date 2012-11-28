@@ -34,6 +34,34 @@ function! versions#type#git#branch#delete(args)
         \ )
 endfunction
 
+" branch:merge.
+function! versions#type#git#branch#merge(args)
+  let branch = get(a:args, 'branch', '')
+  let branch = branch != '' ? branch : s:input(0)
+
+  if branch == '' && vital#versions#yesno('merge?')
+    return
+  endif
+
+  return vital#versions#trim_cr(
+        \   vital#versions#system(printf('git merge --no-ff %s', branch))
+        \ )
+endfunction
+
+" branch:push.
+function! versions#type#git#branch#push(args)
+  let branch = get(a:args, 'branch', '')
+  let branch = branch != '' ? branch : s:input(0)
+
+  if branch == '' && vital#versions#yesno('push?')
+    return
+  endif
+
+  return vital#versions#trim_cr(
+        \   vital#versions#system(printf('git push origin %s:%s', branch, branch))
+        \ )
+endfunction
+
 " branch:list.
 function! versions#type#git#branch#list(...)
   return map(split(vital#versions#system('git branch'), "\n"),
