@@ -87,16 +87,20 @@ function! versions#command(command, command_args, global_args)
         \ )
 endfunction
 
-function! versions#info()
-  let type = versions#get_type(getcwd())
-  if type == ''
+function! versions#info(...)
+  let args = get(a:000, 0, {})
+  let path = get(args, 'path', getcwd())
+  let type = versions#get_type(path)
+  if type == '' || path == ''
     return ''
   endif
+  let format = get(args, 'format', g:versions#info[type])
+
   try
     let function_name = printf('versions#type#%s#info#do', type)
     return versions#call(function(function_name),
-          \ [{ 'format': g:versions#info[type] }],
-          \ getcwd())
+          \ [{ 'format': format }],
+          \ path)
   catch
     if g:versions#debug
       echomsg v:exception
