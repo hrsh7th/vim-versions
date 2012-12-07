@@ -46,8 +46,9 @@ function! s:source.gather_candidates(args, context)
   call unite#print_message('[versions/changeset] author: ' . changeset.author)
   call unite#print_message('[versions/changeset] date: ' . changeset.date)
   call unite#print_message('[versions/changeset] message: ' . changeset.message)
+  let statuslen = max(map(deepcopy(changeset.statuses), 'strlen(v:val.status)'))
   return map(changeset.statuses, "{
-        \   'word': v:val.status . ' | ' . v:val.path,
+        \   'word': vital#versions#padding(v:val.status, statuslen) . ' | ' . v:val.path,
         \   'action__changeset': changeset,
         \   'action__status': v:val,
         \   'source__args': a:context.source__args,

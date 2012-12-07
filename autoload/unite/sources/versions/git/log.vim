@@ -42,8 +42,15 @@ function! s:source.gather_candidates(args, context)
         \ }, {
         \   'working_dir': fnamemodify(path, ':p:h')
         \ })
+  let revisionlen = max(map(deepcopy(logs), 'strlen(v:val.revision)'))
+  let authorlen = max(map(deepcopy(logs), 'strlen(v:val.author)'))
+  let datelen = max(map(deepcopy(logs), 'strlen(v:val.date)'))
   return map(logs, "{
-        \   'word': v:val.revision . ' | ' . v:val.author . ' | ' . v:val.date . ' | ' . v:val.message,
+        \   'word': 
+        \      vital#versions#padding(v:val.revision, revisionlen) . ' | ' .
+        \      vital#versions#padding(v:val.author, authorlen) . ' | ' .
+        \      vital#versions#padding(v:val.date, datelen) . ' | ' .
+        \      v:val.message,
         \   'action__log': v:val,
         \   'source__args': a:context.source__args,
         \   'kind': 'versions/git/log',

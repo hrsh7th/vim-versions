@@ -114,6 +114,10 @@ function! vital#versions#define(dict, key, value)
   endif
 endfunction
 
+function! vital#versions#padding(str, num)
+  return strpart(a:str . repeat(' ', a:num), 0, a:num)
+endfunction
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
 

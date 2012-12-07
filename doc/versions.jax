@@ -187,6 +187,9 @@ TODO					*versions-todo*
 ==============================================================================
 更新履歴				*versions-changelog*
 
+0.0.3	2012-12-07
+	* unite の表示を改善した
+
 0.0.3	2012-11-28
 	* versions#type#svn#status に、特定のステータスを無視する機能を追加(externals がうざい時向け)
 	* git の branch 操作に、merge と push を追加

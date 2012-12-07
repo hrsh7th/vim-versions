@@ -37,8 +37,9 @@ function! s:source.gather_candidates(args, context)
   let statuses = versions#command('status', { 'path': path }, {
         \ 'working_dir': fnamemodify(path, ':p:h')
         \ })
+  let statuslen = max(map(deepcopy(statuses), 'strlen(v:val.status)'))
   return map(statuses, "{
-        \   'word': v:val.status . ' | ' . v:val.path,
+        \   'word': vital#versions#padding(v:val.status, statuslen) . ' | ' . v:val.path,
         \   'action__status': v:val,
         \   'source__args': a:context.source__args,
         \   'kind': 'versions/svn/status',
