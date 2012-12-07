@@ -94,11 +94,12 @@ function! vital#versions#trim_cr(...)
   return substitute(a:000[0], '\r', '', 'g')
 endfunction
 
-function! vital#versions#yesno(message)
+function! vital#versions#yesno(message, ...)
+  let allow_empty = get(a:000, 0, 1)
   let yesno = input(a:message . ' [yes/no] : ')
   while yesno !~? '^\%(y\%[es]\|n\%[o]\)$'
     redraw
-    if yesno == ''
+    if yesno == '' && allow_empty
       echo 'canceled.'
       break
     endif

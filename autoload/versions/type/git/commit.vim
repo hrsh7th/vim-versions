@@ -61,7 +61,7 @@ function! versions#type#git#commit#finish()
     throw 'versions#type#git#commit: invalid b:versions.context.command.'
   endif
 
-  if !vital#versions#yesno('commit?')
+  if !vital#versions#yesno('commit?', 0)
     return
   endif
 

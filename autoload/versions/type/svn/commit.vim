@@ -42,7 +42,7 @@ function! versions#type#svn#commit#finish()
     throw 'versions#type#svn#commit: invalid b:versions.context.command.'
   endif
 
-  if !vital#versions#yesno('commit?')
+  if !vital#versions#yesno('commit?', 0)
     return
   endif
 
