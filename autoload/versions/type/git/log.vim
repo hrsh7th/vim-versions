@@ -4,6 +4,8 @@ set cpo&vim
 " HASH, PREV_HASH, AUTHOR_NAME, AUTHOR_EMAIL, AUTHOR_DATE, SUBJECT
 call vital#versions#define(g:, 'versions#type#git#log#format', '%H%x09%P%x09%an%x09%ae%x09%ai%x09%s')
 call vital#versions#define(g:, 'versions#type#git#log#limit', 1000)
+call vital#versions#define(g:, 'versions#type#git#log#no_merges', 0)
+call vital#versions#define(g:, 'versions#type#git#log#first_parent', 0)
 
 function! versions#type#git#log#do(args)
   let path = vital#versions#substitute_path_separator(
@@ -11,9 +13,11 @@ function! versions#type#git#log#do(args)
   let limit = '-' . get(a:args, 'limit',
         \ g:versions#type#git#log#limit)
 
-  let output = vital#versions#system(printf('git log --pretty=format:"%s" %s %s',
+  let output = vital#versions#system(printf('git log --pretty=format:"%s" %s %s %s %s',
         \ g:versions#type#git#log#format,
         \ limit,
+        \ g:versions#type#git#log#no_merges ? '--no-merges' : '',
+        \ g:versions#type#git#log#first_parent? '--first-parent' : '',
         \ versions#get_relative_path(path)))
 
   return versions#type#git#log#parse(output)

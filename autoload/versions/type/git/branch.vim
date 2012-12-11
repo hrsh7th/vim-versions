@@ -1,6 +1,8 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+call vital#versions#define(g:, 'versions#type#git#branch#merge#ignore_all_space', 0)
+
 " branch:do -> branch:create.
 function! versions#type#git#branch#do(args)
   return versions#type#git#branch#create(a:args)
@@ -44,7 +46,10 @@ function! versions#type#git#branch#merge(args)
   endif
 
   return vital#versions#trim_cr(
-        \   vital#versions#system(printf('git merge --no-ff %s', branch))
+        \   vital#versions#system(printf('git merge --no-ff %s %s',
+        \     g:versions#type#git#branch#merge#ignore_all_space ? '-Xignore-all-space' : '',
+        \     branch
+        \   ))
         \ )
 endfunction
 

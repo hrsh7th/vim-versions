@@ -114,6 +114,18 @@ SVN
 		ex) let g:versions#type#svn#status#ignore_status = ['X']
 
 GIT
+	|g:versions#type#git#log#first_parent|
+		ログを見る際に、トピックブランチのコミットのみを列挙する際に指定します。
+		デフォルトは 0 です。
+
+	|g:versions#type#git#log#no_merges|
+		ログを見る際に、マージコミットを列挙しないようにする設定です。
+		デフォルトは 0 です。
+
+	|g:versions#type#git#branch#merge#ignore_all_space|
+		マージの際に、空白文字を無視するかどうかの設定です。
+		デフォルトは 0 です。
+
 	|g:versions#type#git#commit#filepath|
 		コミット時に作成される一時ファイルの書き込みパスです。
 		コマンド実行中のリポジトリのルートディレクトリを基準とします。
