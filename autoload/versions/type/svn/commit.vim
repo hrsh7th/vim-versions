@@ -7,9 +7,11 @@ call vital#versions#define(g:, 'versions#type#svn#commit#ignore',
       \ '--This line, and those below, will be ignored--')
 
 function! versions#type#svn#commit#do(args)
+  let cwd = getcwd()
   call versions#type#svn#commit#create_message(a:args.paths)
   call vital#versions#execute('tabedit', s:get_file(getcwd()))
   call vital#versions#execute('edit!')
+  call vital#versions#execute('lcd', cwd)
 
   let b:versions = {
         \ 'context': {

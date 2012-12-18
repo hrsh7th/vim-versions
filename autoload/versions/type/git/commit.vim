@@ -10,8 +10,10 @@ call vital#versions#define(g:, 'versions#type#git#commit#ignore',
 let s:paths = []
 
 function! versions#type#git#commit#do(args)
+  let cwd = getcwd()
   call vital#versions#execute('tabedit', s:get_file(getcwd()))
   call vital#versions#execute('set', 'filetype=' . g:versions#type#git#commit#filetype)
+  call vital#versions#execute('lcd', cwd)
 
   let output = vital#versions#system(printf('git commit --dry-run --quiet -- %s',
         \ join(
