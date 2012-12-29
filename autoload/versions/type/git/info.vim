@@ -17,7 +17,11 @@ function! versions#type#git#info#do(args)
 
       " %b : current branch name.
       elseif part == 'b'
-        let info .= vital#versions#system('git symbolic-ref --short HEAD')
+        let branches = versions#command('branch:list', {}, { 'working_dir': getcwd() })
+        let branches = filter(branches, 'v:val.is_current')
+        if !empty(branches)
+          let info .= branches[0].name
+        endif
 
       " %r : repository name.
       elseif part == 'r'
