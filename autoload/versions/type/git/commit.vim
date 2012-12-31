@@ -70,6 +70,8 @@ function! versions#type#git#commit#finish()
   call versions#call(function(printf('<SNR>%d_commit', s:SID())),
         \ [b:versions.context.args],
         \ b:versions.context.working_dir)
+
+  tabclose
 endfunction
 
 function! s:commit(args)
