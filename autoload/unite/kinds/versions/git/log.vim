@@ -38,6 +38,21 @@ function! s:kind.action_table.yank_prev_revision.func(candidates)
   call vital#versions#yank(candidate.action__log.prev_revision)
 endfunction
 
+let s:kind.action_table.revert = {
+      \ 'description': 'revert revision.',
+      \ 'is_selectable': 1,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.revert.func(candidates)
+  let candidates = vital#versions#is_list(a:candidates) ? a:candidates : [a:candidates]
+  call versions#command('revert', {
+        \   'revisions': join(map(deepcopy(candidates), 'v:val.action__log.revision'), ' '),
+        \ }, {
+        \   'working_dir': fnamemodify(candidates[0].source__args.path, ':p:h')
+        \ })
+endfunction
+
 let s:kind.action_table.reset = {
       \ 'description': 'reset revision.',
       \ 'is_selectable': 0,
