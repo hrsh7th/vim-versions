@@ -51,8 +51,6 @@ function! versions#type#svn#commit#finish()
   call versions#call(function(printf('<SNR>%d_commit', s:SID())),
         \ [b:versions.context.args],
         \ b:versions.context.working_dir)
-
-  tabclose
 endfunction
 
 function! versions#type#svn#commit#create_message(paths)
