@@ -21,7 +21,7 @@ let s:source = {
 
 function! s:source.hooks.on_init(args, context)
   let a:context.source__args = {}
-  let a:context.source__args.path = unite#sources#versions#get_path(get(a:args, 0, '%'))
+  let a:context.source__args.path = versions#get_root_dir(unite#sources#versions#get_path(get(a:args, 0, '%')))
 
   if versions#get_type(a:context.source__args.path) != 'git'
     throw '[versions] vcs not detected.'
