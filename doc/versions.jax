@@ -56,13 +56,11 @@ License : MIT license {{{
 			SVN
 				- status
 				- log
-				- file_rec
 				- changeset
 			GIT
 				- branch
 				- status
 				- log
-				- file_rec
 				- changeset
 
 		また、{path} には以下の特殊な値を指定することができます。
@@ -200,9 +198,6 @@ TODO					*versions-todo*
 
 ==============================================================================
 更新履歴				*versions-changelog*
-
-0.0.3	2013-01-01
-	* file_rec ソースを一旦追加。
 
 0.0.3	2012-12-29
 	* info でおかしな表示になることがあるのを修正
