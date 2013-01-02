@@ -47,7 +47,7 @@ let s:kind.action_table.revert = {
 function! s:kind.action_table.revert.func(candidates)
   let candidates = vital#versions#is_list(a:candidates) ? a:candidates : [a:candidates]
   call versions#command('revert', {
-        \   'revisions': join(map(deepcopy(candidates), 'v:val.action__log.revision'), ' '),
+        \   'revisions': map(deepcopy(candidates), 'v:val.action__log.revision'),
         \ }, {
         \   'working_dir': fnamemodify(candidates[0].source__args.path, ':p:h')
         \ })
