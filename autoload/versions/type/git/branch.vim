@@ -69,16 +69,25 @@ endfunction
 
 " branch:list.
 function! versions#type#git#branch#list(...)
-  return map(split(vital#versions#system('git branch'), "\n"),
+  let branches = map(split(vital#versions#system('git branch --all'), "\n"),
         \   'versions#type#git#branch#create_branch(v:val)'
         \)
+
+  " unique.
+  let branches_map = {}
+  for branch in branches
+    if !exists('branches_map[branch.name]') || branch.is_current
+      let branches_map[branch.name] = branch
+    endif
+  endfor
+  return values(branches_map)
 endfunction
 
 function! versions#type#git#branch#create_branch(line)
   let mark = strpart(a:line, 0, 2)
   let name = strpart(a:line, 2)
   return {
-        \ 'name': name,
+        \ 'name': substitute(name, '^remotes\/.*\/', '', 'g'),
         \ 'is_current': mark =~# '\*',
         \ }
 endfunction

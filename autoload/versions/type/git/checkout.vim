@@ -12,9 +12,9 @@ function! versions#type#git#checkout#do(args)
 
   let branch = get(args, 'branch', '')
 
-  let output = vital#versions#system(printf('git checkout %s -- %s',
+  let output = vital#versions#system(printf('git checkout %s%s',
         \ branch,
-        \ join(args.paths, ' ')))
+        \ branch == '' ? ' -- ' . join(args.paths, ' ') : ''))
 
   return vital#versions#trim_cr(output)
 endfunction
