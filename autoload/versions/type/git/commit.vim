@@ -11,6 +11,8 @@ let s:paths = []
 
 function! versions#type#git#commit#do(args)
   let cwd = getcwd()
+  let t:versions_previous_tab = localtime()
+
   call vital#versions#execute('tabedit', s:get_file(getcwd()))
   call vital#versions#execute('set', 'filetype=' . g:versions#type#git#commit#filetype)
   call vital#versions#execute('lcd', cwd)
@@ -70,6 +72,17 @@ function! versions#type#git#commit#finish()
   call versions#call(function(printf('<SNR>%d_commit', s:SID())),
         \ [b:versions.context.args],
         \ b:versions.context.working_dir)
+
+  tabclose
+
+  if exists('*gettabvar')
+    " search previous tab.
+    for tabnr in filter(range(1, tabpagenr('$')),
+          \ "gettabvar(tabnr, 'versions_previous_tab') > 0")
+      execute 'tabnext' tabnr
+      unlet! t:versions_previous_tab
+    endfor
+  endif
 endfunction
 
 function! s:commit(args)
