@@ -78,7 +78,7 @@ function! versions#type#git#commit#finish()
   if exists('*gettabvar')
     " search previous tab.
     for tabnr in filter(range(1, tabpagenr('$')),
-          \ "gettabvar(tabnr, 'versions_previous_tab') > 0")
+          \ "gettabvar(v:val, 'versions_previous_tab') > 0")
       execute 'tabnext' tabnr
       unlet! t:versions_previous_tab
     endfor
