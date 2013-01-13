@@ -8,6 +8,8 @@ call vital#versions#define(g:, 'versions#type#svn#commit#ignore',
 
 function! versions#type#svn#commit#do(args)
   let cwd = getcwd()
+  let t:versions_previous_tab = localtime()
+
   call versions#type#svn#commit#create_message(a:args.paths)
   call vital#versions#execute('tabedit', s:get_file(getcwd()))
   call vital#versions#execute('edit!')
@@ -51,6 +53,17 @@ function! versions#type#svn#commit#finish()
   call versions#call(function(printf('<SNR>%d_commit', s:SID())),
         \ [b:versions.context.args],
         \ b:versions.context.working_dir)
+
+  tabclose
+
+  if exists('*gettabvar')
+    " search previous tab.
+    for tabnr in filter(range(1, tabpagenr('$')),
+          \ "gettabvar(v:val, 'versions_previous_tab') > 0")
+      execute 'tabnext' tabnr
+      unlet! t:versions_previous_tab
+    endfor
+  endif
 endfunction
 
 function! versions#type#svn#commit#create_message(paths)
