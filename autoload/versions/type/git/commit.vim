@@ -15,6 +15,7 @@ function! versions#type#git#commit#do(args)
 
   call vital#versions#execute('tabedit', s:get_file(getcwd()))
   call vital#versions#execute('set', 'filetype=' . g:versions#type#git#commit#filetype)
+  call vital#versions#execute('setlocal', 'textwidth=0')
   call vital#versions#execute('lcd', cwd)
 
   let output = vital#versions#system(printf('git commit --dry-run --quiet -- %s',

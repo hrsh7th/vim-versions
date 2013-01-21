@@ -200,7 +200,8 @@ TODO					*versions-todo*
 更新履歴				*versions-changelog*
 
 0.0.3	2013-01-21
-	* status kind に file_delete アクションを追加。
+	* コミットバッファにおける textwidth を 0 に変更
+	* status kind に file_delete アクションを追加
 
 0.0.3	2013-01-10
 	* branch ソースで、リモートブランチも一覧に表示するように修正
