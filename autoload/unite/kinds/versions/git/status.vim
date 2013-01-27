@@ -15,10 +15,14 @@ let s:kind.action_table.file_delete = {
       \ 'description': 'delete file by vimfiler.',
       \ 'is_selectable': 1,
       \ 'is_quit': 0,
-      \ 'is_listed': g:loaded_vimfiler,
       \ 'is_invalidate_cache': 1,
       \ }
 function! s:kind.action_table.file_delete.func(candidates)
+  if !exists(':VimFiler')
+    echo 'vimfiler is not installed.'
+    return
+  endif
+
   let candidates = vital#versions#is_list(a:candidates) ? a:candidates : [a:candidates]
   for candidate in candidates
     let candidate.action__path = fnamemodify(candidate.action__status.path, ':p')
