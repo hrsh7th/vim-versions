@@ -7,7 +7,7 @@ endfunction
 
 let s:kind = {
       \ 'name': 'versions/git/log',
-      \ 'default_action': 'diff_prev',
+      \ 'default_action': 'preview',
       \ 'action_table': {},
       \ }
 
@@ -98,6 +98,26 @@ function! s:kind.action_table.reset_hard.func(candidates)
         \ }, {
         \   'working_dir': fnamemodify(candidate.source__args.path, ':p:h')
         \ })
+endfunction
+
+let s:kind.action_table.preview = {
+      \ 'description': 'display preview.',
+      \ 'is_selectable': 0,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.preview.func(candidates)
+  let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
+  call vital#versions#execute('pedit!', '\[versions-preview\]')
+
+  let preview_winnrs = filter(range(1, winnr('$')), 'bufname(winbufnr(v:val)) == "[versions-preview]"')
+  if !empty(preview_winnrs)
+    let preview_winnr = preview_winnrs[0]
+    call vital#versions#execute(preview_winnr . 'wincmd w')
+    put!='aaaaaaaaa'
+    setlocal bufhidden=delete nomodifiable nomodified
+    call vital#versions#execute('wincmd p')
+  endif
 endfunction
 
 let s:kind.action_table.diff = {
