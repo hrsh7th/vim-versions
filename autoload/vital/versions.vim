@@ -57,11 +57,28 @@ function! vital#versions#yank(text)
   endif
 endfunction
 
+function! vital#versions#has_vimproc()
+  return call(s:V.has_vimproc, [])
+endfunction
+
+function! vital#versions#iconv(...)
+  return call(s:V.iconv, a:000)
+endfunction
+
 function! vital#versions#system(...)
   if g:versions#debug
     echomsg a:000[0]
   endif
-  return vital#versions#trim_cr(call(s:V.system, a:000))
+  let s:system = vital#versions#has_vimproc() ?
+        \ function('vimproc#system') :
+        \ function('system')
+  return vital#versions#trim_cr(
+        \   vital#versions#iconv(
+        \     call(s:system, a:000),
+        \     'utf-8',
+        \     &encoding
+        \   )
+        \ )
 endfunction
 
 function! vital#versions#execute(...)

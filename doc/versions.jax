@@ -26,6 +26,7 @@ License : MIT license {{{
 目次				*versions-contents*
 	概要			|versions-introduction|
 	使い方			|versions-usage|
+	よくある質問		|versions-question|
 	設定			|versions-interface|
 	  コマンド		  |versions-commands|
 	  変数			  |versions-variables|
@@ -41,6 +42,12 @@ License : MIT license {{{
 ==============================================================================
 使い方					*versions-usage*
 
+
+==============================================================================
+よくある質問				*versions-question*
+
+* 日本語のファイル名が正しくでないのですが
+ -> 「git config --global core.quotepath false」を設定してください。
 
 ==============================================================================
 インターフェース		*versions-interface*
