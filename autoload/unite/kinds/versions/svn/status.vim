@@ -25,7 +25,7 @@ function! s:kind.action_table.file_delete.func(candidates)
 
   let candidates = vital#versions#is_list(a:candidates) ? a:candidates : [a:candidates]
   for candidate in candidates
-    let candidate.action__path = fnamemodify(candidate.action__status.path, ':p')
+    let candidate.action__path = candidate.source__args.path . '/' . candidate.action__status.path
     let candidate.kind = 'file'
     call unite#take_action('vimfiler__delete', candidate)
   endfor
