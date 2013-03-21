@@ -87,7 +87,7 @@ function! versions#type#git#branch#create_branch(line)
   let mark = strpart(a:line, 0, 2)
   let name = strpart(a:line, 2)
   return {
-        \ 'name': substitute(name, '^remotes\/.*\/', '', 'g'),
+        \ 'name': substitute(name, '^remotes\/.\{-}\/', '', 'g'),
         \ 'is_current': mark =~# '\*',
         \ }
 endfunction
