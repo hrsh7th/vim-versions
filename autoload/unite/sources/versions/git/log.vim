@@ -47,6 +47,7 @@ function! s:source.gather_candidates(args, context)
   let datelen = max(map(deepcopy(logs), 'strlen(v:val.date)'))
   return map(logs, "{
         \   'word': 
+        \      (exists('v:val.is_pushed') && !v:val.is_pushed ? ' *  | ' : '    | ') .
         \      vital#versions#padding(v:val.revision, revisionlen) . ' | ' .
         \      vital#versions#padding(v:val.author, authorlen) . ' | ' .
         \      vital#versions#padding(v:val.date, datelen) . ' | ' .
