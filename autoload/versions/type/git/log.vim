@@ -9,17 +9,17 @@ call vital#versions#define(g:, 'versions#type#git#log#first_parent', 0)
 call vital#versions#define(g:, 'versions#type#git#log#append_is_pushed', 0)
 
 function! versions#type#git#log#do(args)
-  let path = vital#versions#substitute_path_separator(
-        \ get(a:args, 'path', './'))
-  let limit = '-' . get(a:args, 'limit',
-        \ g:versions#type#git#log#limit)
+  let path = vital#versions#substitute_path_separator(get(a:args, 'path', './'))
+  let path = versions#get_relative_path(path)
+  let path = (path == '' ? './' : path)
+  let limit = '-' . get(a:args, 'limit', g:versions#type#git#log#limit)
 
   let output = vital#versions#system(printf('git log --pretty=format:"%s" %s %s %s %s',
         \ g:versions#type#git#log#format,
         \ limit,
         \ g:versions#type#git#log#no_merges ? '--no-merges' : '',
         \ g:versions#type#git#log#first_parent? '--first-parent' : '',
-        \ versions#get_relative_path(path)))
+        \ path))
 
   let logs = versions#type#git#log#parse(output)
 
