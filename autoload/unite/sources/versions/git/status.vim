@@ -31,8 +31,8 @@ endfunction
 function! s:source.gather_candidates(args, context)
   let path = a:context.source__args.path
 
-  call unite#print_message('[versions/status] type: ' . versions#get_type(path))
-  call unite#print_message('[versions/status] path: ' . path)
+  call unite#print_source_message('type: ' . versions#get_type(path), s:source.name)
+  call unite#print_source_message('path: ' . path, s:source.name)
 
   let statuses = versions#command('status', { 'path': path }, {
         \ 'working_dir': fnamemodify(path, ':p:h')

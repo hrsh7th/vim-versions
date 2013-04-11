@@ -34,18 +34,18 @@ function! s:source.gather_candidates(args, context)
   let path = a:context.source__args.path
   let revision = a:context.source__args.revision
 
-  call unite#print_message('[versions/changeset] type: ' . versions#get_type(path))
-  call unite#print_message('[versions/changeset] path: ' . path)
+  call unite#print_source_message('type: ' . versions#get_type(path), s:source.name)
+  call unite#print_source_message('path: ' . path, s:source.name)
 
   let changeset = versions#command('changeset', {
         \   'revision': revision
         \ }, {
         \   'working_dir': fnamemodify(path, ':p:h')
         \ })
-  call unite#print_message('[versions/changeset] revision: ' . changeset.revision)
-  call unite#print_message('[versions/changeset] author: ' . changeset.author)
-  call unite#print_message('[versions/changeset] date: ' . changeset.date)
-  call unite#print_message('[versions/changeset] message: ' . changeset.message)
+  call unite#print_source_message('revision: ' . changeset.revision, s:source.name)
+  call unite#print_source_message('author: ' . changeset.author, s:source.name)
+  call unite#print_source_message('date: ' . changeset.date, s:source.name)
+  call unite#print_source_message('message: ' . changeset.message, s:source.name)
   let statuslen = max(map(deepcopy(changeset.statuses), 'strlen(v:val.status)'))
   return map(changeset.statuses, "{
         \   'word': vital#versions#padding(v:val.status, statuslen) . ' | ' . v:val.path,

@@ -14,7 +14,7 @@ function! s:source.gather_candidates(args, context)
   let path = get(a:args, 0, versions#get_working_dir())
 
   if versions#get_type(path) == ''
-    call unite#print_message('[versions] vcs not detected.')
+    call unite#print_source_message('vcs not detected.', s:source.name)
     return []
   endif
 
@@ -22,7 +22,7 @@ function! s:source.gather_candidates(args, context)
   let sources += unite#sources#versions#get_sources('versions/' .
         \ versions#get_type(path))
 
-  call unite#print_message('[versions] type: ' . versions#get_type(path))
+  call unite#print_source_message('type: ' . versions#get_type(path), s:source.name)
 
   return map(filter(sources, 'v:val.is_listed'), "{
         \ 'word': vital#versions#trim_left(v:val.name, printf('versions/%s/', versions#get_type(path))),

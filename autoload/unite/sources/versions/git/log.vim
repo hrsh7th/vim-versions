@@ -33,8 +33,8 @@ function! s:source.gather_candidates(args, context)
   let path = a:context.source__args.path
   let limit = a:context.source__args.limit
 
-  call unite#print_message('[versions/log] type: ' . versions#get_type(path))
-  call unite#print_message('[versions/log] path: ' . path)
+  call unite#print_source_message('type: ' . versions#get_type(path), s:source.name)
+  call unite#print_source_message('path: ' . path, s:source.name)
 
   let logs = versions#command('log', {
         \   'path': path,
