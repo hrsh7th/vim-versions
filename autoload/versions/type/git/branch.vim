@@ -45,8 +45,11 @@ function! versions#type#git#branch#merge(args)
     return
   endif
 
+  let option = get(a:args, 'option', [])
+
   return vital#versions#trim_cr(
-        \   vital#versions#system(printf('git merge --no-ff %s %s',
+        \   vital#versions#system(printf('git merge %s %s %s',
+        \     join(option, ' '),
         \     g:versions#type#git#branch#merge#ignore_all_space ? '-Xignore-all-space' : '',
         \     branch
         \   ))

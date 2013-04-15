@@ -67,7 +67,35 @@ let s:kind.action_table.merge = {
       \ }
 function! s:kind.action_table.merge.func(candidates)
   let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
-  let output = versions#command('branch:merge', { 'branch': candidate.action__branch.name, }, {
+  let output = versions#command('branch:merge', { 'branch': candidate.action__branch.name, 'option': [] }, {
+        \ 'working_dir': candidate.source__args.path
+        \ })
+  call vital#versions#echomsgs(output)
+endfunction
+
+let s:kind.action_table.merge_no_ff = {
+      \ 'description': 'merge branch with --no-ff.',
+      \ 'is_selectable': 0,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.merge_no_ff.func(candidates)
+  let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
+  let output = versions#command('branch:merge', { 'branch': candidate.action__branch.name, 'option': ['--no-ff'] }, {
+        \ 'working_dir': candidate.source__args.path
+        \ })
+  call vital#versions#echomsgs(output)
+endfunction
+
+let s:kind.action_table.merge_squash = {
+      \ 'description': 'merge branch with --squash.',
+      \ 'is_selectable': 0,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.merge_squash.func(candidates)
+  let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
+  let output = versions#command('branch:merge', { 'branch': candidate.action__branch.name, 'option': ['--squash'] }, {
         \ 'working_dir': candidate.source__args.path
         \ })
   call vital#versions#echomsgs(output)

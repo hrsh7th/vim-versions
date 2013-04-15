@@ -16,6 +16,7 @@ endfunction
 let s:source = {
       \ 'name': 'versions/svn/log',
       \ 'description': 'vcs repository log.',
+      \ 'filters': ['matcher_default', 'converter_default', 'sorter_versions_date'],
       \ 'hooks': {},
       \ }
 

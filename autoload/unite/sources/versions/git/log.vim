@@ -16,6 +16,7 @@ endfunction
 let s:source = {
       \ 'name': 'versions/git/log',
       \ 'description': 'vcs repository log.',
+      \ 'filters': ['matcher_default', 'converter_default', 'sorter_versions_date'],
       \ 'hooks': {},
       \ }
 
