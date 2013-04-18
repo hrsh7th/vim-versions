@@ -3,15 +3,20 @@ set cpo&vim
 
 function! versions#type#git#changeset#do(args)
   let revision = get(a:args, 'revision', 'HEAD')
+  let prev_revision = get(a:args, 'prev_revision', 'HEAD')
 
-  let output = vital#versions#system(printf('git log --name-status --pretty=format:"%s" -1 %s',
+  let log_info = vital#versions#system(printf('git log --pretty=format:"%s" -1 %s',
         \ g:versions#type#git#log#format,
         \ revision))
-  return versions#type#git#changeset#parse(output)
+  let name_status = vital#versions#system(printf('git diff --name-status %s %s',
+        \ revision,
+        \ prev_revision))
+
+  return versions#type#git#changeset#parse(log_info, name_status)
 endfunction
 
-function! versions#type#git#changeset#parse(output)
-  let list = map(split(a:output, "\n"), 'vital#versions#trim_right(v:val)')
+function! versions#type#git#changeset#parse(log_info, name_status)
+  let list = map(split(a:log_info, "\n"), 'vital#versions#trim_right(v:val)')
   if empty(list)
     return {}
   endif
@@ -21,7 +26,7 @@ function! versions#type#git#changeset#parse(output)
     return {}
   endif
 
-  let changeset[0].statuses = map(filter(list[1:],
+  let changeset[0].statuses = map(filter(split(a:name_status, "\n"),
         \ 'versions#type#git#changeset#is_status_line(v:val)'),
         \ 'versions#type#git#changeset#create_status(v:val)')
   return changeset[0]
