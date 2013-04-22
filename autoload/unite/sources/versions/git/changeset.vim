@@ -34,13 +34,14 @@ endfunction
 function! s:source.gather_candidates(args, context)
   let path = a:context.source__args.path
   let revision = a:context.source__args.revision
-  let revision = a:context.source__args.prev_revision
+  let prev_revision = a:context.source__args.prev_revision
 
   call unite#print_source_message('type: ' . versions#get_type(path), s:source.name)
   call unite#print_source_message('path: ' . path, s:source.name)
 
   let changeset = versions#command('changeset', {
-        \   'revision': revision
+        \   'revision': revision,
+        \   'prev_revision': prev_revision
         \ }, {
         \   'working_dir': fnamemodify(path, ':p:h')
         \ })

@@ -33,14 +33,17 @@ function! versions#type#git#changeset#parse(log_info, name_status)
 endfunction
 
 function! versions#type#git#changeset#is_status_line(line)
-  return match(strpart(a:line, 0, 1), '^[ACDMRTUXB]\+$') > -1
+  let status = substitute(a:line, '[^[:blank:]]\+$', '', 'g')
+  return match(vital#versions#trim(status), '^[ACDMRTUXB]\+$') > -1
 endfunction
 
 function! versions#type#git#changeset#create_status(line)
+  let status = substitute(a:line, '[^[:blank:]]\+$', '', 'g')
+  let path = substitute(a:line, '^[^[:blank:]]\+', '', 'g')
   return {
         \ 'line': a:line,
-        \ 'status': strpart(a:line, 0, 1),
-        \ 'path': vital#versions#substitute_path_separator(strpart(a:line, 2)),
+        \ 'status': vital#versions#trim(status),
+        \ 'path': vital#versions#trim(path),
         \ }
 endfunction
 
