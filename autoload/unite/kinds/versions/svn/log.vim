@@ -41,6 +41,8 @@ endfunction
 let s:kind.action_table.diff = {
       \ 'description': 'display diff.',
       \ 'is_selectable': 0,
+      \ 'is_quit': 1,
+      \ 'is_start': 1,
       \ }
 function! s:kind.action_table.diff.func(candidates)
   let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
@@ -71,6 +73,8 @@ endfunction
 let s:kind.action_table.diff_prev = {
       \ 'description': 'display previous revision diff.',
       \ 'is_selectable': 0,
+      \ 'is_quit': 1,
+      \ 'is_start': 1,
       \ }
 function! s:kind.action_table.diff_prev.func(candidates)
   let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
