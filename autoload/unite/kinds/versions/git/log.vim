@@ -100,6 +100,34 @@ function! s:kind.action_table.reset_hard.func(candidates)
         \ })
 endfunction
 
+let s:kind.action_table.changeset = {
+      \ 'description': 'display changeset.',
+      \ 'is_selectable': 0,
+      \ 'is_quit': 1,
+      \ 'is_start': 1,
+      \ }
+function! s:kind.action_table.changeset.func(candidates)
+  let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
+  return unite#start_temporary([['versions/git/changeset',
+        \ candidate.source__args.path,
+        \ 'HEAD',
+        \ candidate.action__log.revision]])
+endfunction
+
+let s:kind.action_table.changeset_prev = {
+      \ 'description': 'display previous revision changeset.',
+      \ 'is_selectable': 0,
+      \ 'is_quit': 1,
+      \ 'is_start': 1,
+      \ }
+function! s:kind.action_table.changeset_prev.func(candidates)
+  let candidate = vital#versions#is_list(a:candidates) ? a:candidates[0] : a:candidates
+  return unite#start_temporary([['versions/git/changeset',
+        \ candidate.source__args.path,
+        \ candidate.action__log.revision,
+        \ candidate.action__log.prev_revision]])
+endfunction
+
 let s:kind.action_table.diff = {
       \ 'description': 'display diff.',
       \ 'is_selectable': 0,

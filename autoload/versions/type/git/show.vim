@@ -8,7 +8,7 @@ function! versions#type#git#show#do(args)
   let path = versions#get_relative_path(a:args.path)
   let revision = get(a:args, 'revision', 'HEAD')
 
-  let output = vital#versions#system(printf('git show %s',
+  let output = vital#versions#system(printf('git cat-file -p %s',
         \ revision . ':' . vital#versions#substitute_path_separator(path)))
   return vital#versions#trim_cr(output)
 endfunction

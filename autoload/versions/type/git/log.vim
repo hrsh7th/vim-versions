@@ -73,9 +73,13 @@ function! versions#type#git#log#create_log(line)
   catch
     return {}
   endtry
+
+  let prev_revisions = split(prev_revision, ' ')
   return {
         \ 'revision': revision,
-        \ 'prev_revision': prev_revision,
+        \ 'is_merge_commit': exists('prev_revisions[1]'),
+        \ 'prev_revision': exists('prev_revisions[0]') ? prev_revisions[0] : '',
+        \ 'prev_revision1': exists('prev_revisions[1]') ? prev_revisions[1] : '',
         \ 'author': author,
         \ 'date': matchstr(date,
         \   '\d\{4,4}\-\d\{2,2}-\d\{2,2}\s\d\{2,2}:\d\{2,2}:\d\{2,2}'),

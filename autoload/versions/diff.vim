@@ -13,6 +13,7 @@ function! versions#diff#file_with_string(path, arg)
   diffthis
 
   call setpos('.', [bufnr('%'), 0, 0])
+  stopinsert!
 endfunction
 
 function! versions#diff#string_with_string(arg1, arg2)
@@ -31,6 +32,7 @@ function! versions#diff#string_with_string(arg1, arg2)
   diffthis
 
   call setpos('.', [bufnr('%'), 0, 0])
+  stopinsert!
 endfunction
 
 let &cpo = s:save_cpo
