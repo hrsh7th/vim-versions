@@ -31,7 +31,12 @@ function! versions#type#git#branch#delete(args)
     return
   endif
 
-  return vital#versions#trim_cr(
+  let output = ''
+  if vital#versions#yesno('delete remote branch?')
+    let output .= vital#versions#system(printf('git push origin :%s', branch))
+  endif
+
+  return output . vital#versions#trim_cr(
         \   vital#versions#system(printf('git branch -D %s', branch))
         \ )
 endfunction
