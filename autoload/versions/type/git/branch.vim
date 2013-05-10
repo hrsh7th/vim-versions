@@ -80,6 +80,7 @@ function! versions#type#git#branch#list(...)
   let branches = map(split(vital#versions#system('git branch --all'), "\n"),
         \   'versions#type#git#branch#create_branch(v:val)'
         \)
+  let branches = filter(branches, 'len(split(v:val.name, " ")) <= 1')
 
   " unique.
   let branches_map = {}
