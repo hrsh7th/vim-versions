@@ -210,6 +210,11 @@ TODO					*versions-todo*
 ==============================================================================
 更新履歴				*versions-changelog*
 
+0.0.3	2013-05-19
+	* git の log の表示を改善
+	* diff 時に filetype に合わせた syntax が有効になるようにした
+	* #5: thanks taichouchou2.
+
 0.0.3	2013-05-10
 	* git の branch 一覧表示を改善
 

@@ -47,9 +47,14 @@ function! s:source.gather_candidates(args, context)
   let authorlen = max(map(deepcopy(logs), 'strlen(v:val.author)'))
   let datelen = max(map(deepcopy(logs), 'strlen(v:val.date)'))
   return map(logs, "{
-        \   'word': 
+        \   'word':
         \      (exists('v:val.is_pushed') && !v:val.is_pushed ? ' *  | ' : '    | ') .
         \      vital#versions#padding(v:val.revision, revisionlen) . ' | ' .
+        \      vital#versions#padding(v:val.author, authorlen) . ' | ' .
+        \      vital#versions#padding(v:val.date, datelen) . ' | ' .
+        \      v:val.message,
+        \   'abbr':
+        \      (exists('v:val.is_pushed') && !v:val.is_pushed ? ' *  | ' : '    | ') .
         \      vital#versions#padding(v:val.author, authorlen) . ' | ' .
         \      vital#versions#padding(v:val.date, datelen) . ' | ' .
         \      v:val.message,
