@@ -8,7 +8,7 @@ function! versions#type#git#changeset#do(args)
   let log_info = vital#versions#system(printf('git log --pretty=format:"%s" -1 %s',
         \ g:versions#type#git#log#format,
         \ revision))
-  let name_status = vital#versions#system(printf('git diff --name-status %s %s',
+  let name_status = vital#versions#system(printf('git diff --name-status %s..%s',
         \ revision,
         \ prev_revision))
 
