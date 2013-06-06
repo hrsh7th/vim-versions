@@ -6,6 +6,6 @@ useful interface for version control.
   - https://github.com/Shougo/unite.vim
 
 # usage
-following commands are available if current buffer was under version control.
-```:Unite versions```
+following command is available if current buffer was under version control.
 
+```:Unite versions```
