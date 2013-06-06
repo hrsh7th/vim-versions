@@ -1,5 +1,5 @@
 # vim-versions
-this provides useful interface for version control.
+useful interface for version control.
 
 # depends
 - unite.vim
