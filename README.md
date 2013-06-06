@@ -1,0 +1,11 @@
+# vim-versions
+this provides useful interface for version control.
+
+# depends
+- unite.vim
+  - https://github.com/Shougo/unite.vim
+
+# usage
+following commands are available if current buffer was under version control.
+```:Unite versions```
+
