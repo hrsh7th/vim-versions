@@ -42,6 +42,21 @@ License : MIT license {{{
 ==============================================================================
 使い方					*versions-usage*
 
+	各種 unite-source の引数については下記を参照してください。
+
+		Unite versions/git/status:./
+			git status の内容を表示したいディレクトリを引数に取ります。
+
+		Unite versions/git/log:./
+			git log の内容を表示したいディレクトリを引数に取ります。
+
+		Unite versions/git/changeset:./:hash1:hash2
+			git diff の内容を表示したいディレクトリを引数に取ります。
+
+			Example:
+				:Unite versions/git/changeset:./:master:develop
+					カレントディレクトリ以下について、'master' ブランチと 'develop' ブランチの差分を表示します。
+
 
 ==============================================================================
 よくある質問				*versions-question*
