@@ -69,7 +69,7 @@ endfunction
 function! versions#type#git#log#create_log(line)
   try
     let [revision, prev_revision, author, mail, date, message] =
-          \ split(a:line, "\t")
+          \ split(a:line, "\t")[0:5]
   catch
     return {}
   endtry
