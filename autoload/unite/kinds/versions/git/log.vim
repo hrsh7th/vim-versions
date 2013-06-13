@@ -146,8 +146,8 @@ function! unite#kinds#versions#git#log#diff(candidate)
   if !filereadable(candidate.source__args.path)
     return unite#start_temporary([['versions/git/changeset',
           \ candidate.source__args.path,
-          \ 'HEAD',
-          \ candidate.action__log.revision
+          \ candidate.action__log.revision,
+          \ 'HEAD'
           \ ]])
   endif
 
@@ -180,8 +180,8 @@ function! unite#kinds#versions#git#log#diff_prev(candidate)
   if !filereadable(candidate.source__args.path)
     return unite#start_temporary([['versions/git/changeset',
           \ candidate.source__args.path,
-          \ candidate.action__log.prev_revision,
-          \ candidate.action__log.revision]])
+          \ candidate.action__log.revision,
+          \ candidate.action__log.prev_revision]])
   endif
 
   call versions#diff#string_with_string({
