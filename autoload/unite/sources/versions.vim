@@ -74,15 +74,10 @@ function! unite#sources#versions#get_path(path)
       let path = b:vimfiler.current_dir
     endif
 
-    if !isdirectory(path)
-      if exists('b:unite')
-        let bufnr = b:unite.prev_bufnr
-        if vital#versions#is_dict(getbufvar(bufnr, 'vimshell'))
-          let path = getbufvar(bufnr, 'vimshell').current_dir
-        endif
-        if vital#versions#is_dict(getbufvar(bufnr, 'vimfiler'))
-          let path = getbufvar(bufnr, 'vimfiler').current_dir
-        endif
+    if !isdirectory(path) && exists('b:unite')
+      let path = bufname(b:unite.prev_bufnr)
+      if !filereadable(path)
+        let path = fnamemodify(path, ':p:h')
       endif
     endif
     return fnamemodify(path, ':p')

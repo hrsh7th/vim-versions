@@ -60,6 +60,12 @@ function! versions#get_working_dir()
   if exists('b:vimfiler.current_dir')
     let working_dir = b:vimfiler.current_dir
   endif
+  if !isdirectory(working_dir) && exists('b:unite')
+    let working_dir = bufname(b:unite.prev_bufnr)
+    if !filereadable(working_dir)
+      let working_dir = fnamemodify(working_dir, ':p:h')
+    endif
+  endif
   return fnamemodify(working_dir, ':p:h')
 endfunction
 
