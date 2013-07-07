@@ -8,4 +8,4 @@ useful interface for version control.
 # usage
 following command is available if current buffer was under version control.
 
-```:Unite versions```
+```:UniteVersions```
