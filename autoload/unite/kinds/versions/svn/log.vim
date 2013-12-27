@@ -73,7 +73,7 @@ function! unite#kinds#versions#svn#log#diff(candidate)
   endif
 
   call versions#diff#file_with_string(candidate.source__args.path, {
-        \   'name': printf('[REMOTE: %s] %s', candidate.action__log.revision, candidate.source__args.path),
+        \   'name': printf('%s [REMOTE: %s]', candidate.source__args.path, candidate.action__log.revision),
         \   'string': versions#command('cat', {
         \     'path': candidate.source__args.path,
         \     'revision': candidate.action__log.revision,
@@ -105,7 +105,7 @@ function! unite#kinds#versions#svn#log#diff_prev(candidate)
   endif
 
   call versions#diff#string_with_string({
-        \   'name': printf('[REMOTE: %s] %s', candidate.action__log.revision, candidate.source__args.path),
+        \   'name': printf('%s [REMOTE: %s]', candidate.source__args.path, candidate.action__log.revision),
         \   'string': versions#command('cat', {
         \     'path': candidate.source__args.path,
         \     'revision': candidate.action__log.revision,
@@ -113,7 +113,7 @@ function! unite#kinds#versions#svn#log#diff_prev(candidate)
         \     'working_dir': fnamemodify(candidate.source__args.path, ':p:h')
         \   })
         \ }, {
-        \   'name': printf('[REMOTE: %s] %s', candidate.action__log.prev_revision, candidate.source__args.path),
+        \   'name': printf('%s [REMOTE: %s]', candidate.source__args.path, candidate.action__log.prev_revision),
         \   'string': versions#command('cat', {
         \     'path': candidate.source__args.path,
         \     'revision': candidate.action__log.prev_revision,

@@ -28,7 +28,7 @@ function! unite#kinds#versions#git#changeset#diff(candidates)
     let changeset = candidate.action__changeset
     let status = candidate.action__status
     call versions#diff#file_with_string(status.path, {
-          \   'name': printf('[REMOTE: %s] %s', candidate.source__args.prev_revision, status.path),
+          \   'name': printf('%s [REMOTE: %s]', status.path, candidate.source__args.prev_revision),
           \   'string': versions#command('show', {
           \     'path': status.path,
           \     'revision': candidate.source__args.prev_revision,
@@ -56,7 +56,7 @@ function! unite#kinds#versions#git#changeset#diff_prev(candidates)
     let changeset = candidate.action__changeset
     let status = candidate.action__status
     call versions#diff#string_with_string({
-          \   'name': printf('[REMOTE: %s] %s', candidate.source__args.revision, status.path),
+          \   'name': printf('%s [REMOTE: %s]', status.path, candidate.source__args.revision),
           \   'string': versions#command('show', {
           \     'path': status.path,
           \     'revision': candidate.source__args.revision,
@@ -64,7 +64,7 @@ function! unite#kinds#versions#git#changeset#diff_prev(candidates)
           \     'working_dir': fnamemodify(candidate.source__args.path, ':p:h')
           \   })
           \ }, {
-          \   'name': printf('[REMOTE: %s] %s', candidate.source__args.prev_revision, status.path),
+          \   'name': printf('%s [REMOTE: %s]', status.path, candidate.source__args.prev_revision),
           \   'string': versions#command('show', {
           \     'path': status.path,
           \     'revision': candidate.source__args.prev_revision,

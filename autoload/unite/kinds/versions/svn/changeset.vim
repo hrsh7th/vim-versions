@@ -28,7 +28,7 @@ function! unite#kinds#versions#svn#changeset#diff(candidates)
     let changeset = candidate.action__changeset
     let status = candidate.action__status
     call versions#diff#file_with_string(status.path, {
-          \   'name': printf('[REMOTE: %s] %s', changeset.prev_revision, status.path),
+          \   'name': printf('%s [REMOTE: %s]', status.path, changeset.prev_revision),
           \   'string': versions#command('cat', {
           \     'path': status.path,
           \     'revision': changeset.prev_revision,
@@ -56,7 +56,7 @@ function! unite#kinds#versions#svn#changeset#diff_prev(candidates)
     let changeset = candidate.action__changeset
     let status = candidate.action__status
     call versions#diff#string_with_string({
-          \   'name': printf('[REMOTE: %s] %s', changeset.revision, status.path),
+          \   'name': printf('%s [REMOTE: %s]', status.path, changeset.revision),
           \   'string': versions#command('cat', {
           \     'path': status.path,
           \     'revision': changeset.revision,
