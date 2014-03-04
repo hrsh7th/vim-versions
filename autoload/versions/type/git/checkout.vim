@@ -11,10 +11,24 @@ function! versions#type#git#checkout#do(args)
   endif
 
   let branch = get(args, 'branch', '')
+  let theirs = get(args, 'theirs', '')
+  let ours   = get(args, 'ours', '')
 
-  let output = vital#versions#system(printf('git checkout %s%s',
-        \ branch,
-        \ branch == '' ? ' -- ' . join(args.paths, ' ') : ''))
+  let opt = []
+  if theirs != ''
+    call add(opt, '--theirs')
+  endif
+  if ours != ''
+    call add(opt, '--ours')
+  endif
+  if branch != ''
+    call add(opt, branch)
+  else
+    call add(opt, '--')
+    call add(opt, join(args.paths, ' '))
+  endif
+
+  let output = vital#versions#system(printf('git checkout %s', join(opt, ' ')))
 
   return vital#versions#trim_cr(output)
 endfunction

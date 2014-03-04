@@ -85,6 +85,40 @@ function! s:kind.action_table.checkout.func(candidates)
   call vital#versions#echomsgs(messages)
 endfunction
 
+let s:kind.action_table.checkout_theirs = {
+      \ 'description': 'checkout status with --theirs.',
+      \ 'is_selectable': 1,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.checkout_theirs.func(candidates)
+  let candidates = vital#versions#is_list(a:candidates) ? a:candidates : [a:candidates]
+  let messages = versions#command('checkout', {
+        \   'theirs': 1,
+        \   'paths': map(deepcopy(candidates), 'v:val.action__status.path')
+        \ }, {
+        \   'working_dir': fnamemodify(candidates[0].source__args.path, ':p:h')
+        \ })
+  call vital#versions#echomsgs(messages)
+endfunction
+
+let s:kind.action_table.checkout_ours = {
+      \ 'description': 'checkout status with --ours.',
+      \ 'is_selectable': 1,
+      \ 'is_invalidate_cache': 1,
+      \ 'is_quit': 0,
+      \ }
+function! s:kind.action_table.checkout_ours.func(candidates)
+  let candidates = vital#versions#is_list(a:candidates) ? a:candidates : [a:candidates]
+  let messages = versions#command('checkout', {
+        \   'ours': 1,
+        \   'paths': map(deepcopy(candidates), 'v:val.action__status.path')
+        \ }, {
+        \   'working_dir': fnamemodify(candidates[0].source__args.path, ':p:h')
+        \ })
+  call vital#versions#echomsgs(messages)
+endfunction
+
 let s:kind.action_table.add = {
       \ 'description': 'add status.',
       \ 'is_selectable': 1,
