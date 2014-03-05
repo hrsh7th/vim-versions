@@ -39,11 +39,11 @@ function! unite#sources#versions#get_sources(target, ...)
 
   " target path loop.
   for path in split(globpath(&runtimepath, target . (is_rec ? '/**/*.vim' : '/*.vim')))
-    let path = vital#versions#substitute_path_separator(path)
+    let path = vital#versions#trim_right(vital#versions#substitute_path_separator(path), '/')
 
     " rtp path loop.
     for rtp in split(&runtimepath, ',')
-      let rtp = vital#versions#substitute_path_separator(rtp) . '/' . target
+      let rtp = vital#versions#trim_right(vital#versions#substitute_path_separator(rtp), '/') . '/' . target
 
       if path =~# rtp
         let l1 = strlen(path)
