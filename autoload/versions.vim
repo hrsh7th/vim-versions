@@ -34,7 +34,7 @@ endfunction
 
 function! versions#get_relative_path(path)
   if fnamemodify(getcwd(), ':p') != fnamemodify(a:path, ':p')
-    return './' . fnamemodify(a:path, ':.')
+    return fnamemodify(a:path, ':.')
   endif
   return ''
 endfunction
