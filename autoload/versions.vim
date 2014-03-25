@@ -45,9 +45,13 @@ function! versions#get_root_dir(path)
     throw 'versions#get_root_dir: vcs not detected.'
   endif
 
-  let path = fnamemodify(vital#versions#substitute_path_separator(a:path), ':p')
-  while finddir(g:versions#type[type], fnamemodify(path, ':p:h:h') . ';') != ''
-    let path = fnamemodify(path, ':p:h:h')
+  let path = vital#versions#trim_right(
+        \ fnamemodify(vital#versions#substitute_path_separator(a:path), ':p'),
+        \ '/')
+  while !isdirectory(path . '/' . g:versions#type[type])
+    let path = vital#versions#trim_right(
+          \ fnamemodify(path, ':p:h:h'),
+          \ '/')
   endwhile
   return vital#versions#trim_right(vital#versions#substitute_path_separator(path), '/')
 endfunction
