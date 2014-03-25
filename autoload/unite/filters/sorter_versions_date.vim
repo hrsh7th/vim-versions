@@ -11,7 +11,7 @@ let s:sorter = {
       \}
 
 function! s:sorter.filter(candidates, context) "{{{
-  return unite#util#sort_by(a:candidates, 'v:val.action__log.date')
+  return reverse(unite#util#sort_by(a:candidates, 'v:val.action__log.date'))
 endfunction"}}}
 
 let &cpo = s:save_cpo
