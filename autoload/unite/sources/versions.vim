@@ -65,24 +65,12 @@ function! unite#sources#versions#get_path(path)
   if a:path == '!'
     return versions#get_root_dir(versions#get_working_dir())
   endif
-  if a:path == '%'
-    let path = expand('%')
-    if exists('b:vimshell.current_dir')
-      let path = b:vimshell.current_dir
-    endif
-    if exists('b:vimfiler.current_dir')
-      let path = b:vimfiler.current_dir
-    endif
 
-    if !isdirectory(path) && exists('b:unite')
-      let path = bufname(b:unite.prev_bufnr)
-      if !filereadable(path)
-        let path = fnamemodify(path, ':p:h')
-      endif
-    endif
-    return fnamemodify(path, ':p')
+  if a:path == '%'
+    return versions#get_working_dir()
   endif
-  return a:path
+
+  return fnamemodify(a:path, ':p')
 endfunction
 
 let &cpo = s:save_cpo

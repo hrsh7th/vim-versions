@@ -48,7 +48,7 @@ function! versions#get_root_dir(path)
   let path = vital#versions#trim_right(
         \ fnamemodify(vital#versions#substitute_path_separator(a:path), ':p'),
         \ '/')
-  while !isdirectory(path . '/' . g:versions#type[type])
+  while !filereadable(path . '/' . g:versions#type[type]) && !isdirectory(path . '/' . g:versions#type[type])
     let path = vital#versions#trim_right(
           \ fnamemodify(path, ':p:h:h'),
           \ '/')
@@ -66,7 +66,7 @@ function! versions#get_working_dir()
   endif
   if !isdirectory(working_dir) && exists('b:unite')
     let working_dir = bufname(b:unite.prev_bufnr)
-    if !filereadable(working_dir)
+    if filereadable(working_dir)
       let working_dir = fnamemodify(working_dir, ':p:h')
     endif
   endif
