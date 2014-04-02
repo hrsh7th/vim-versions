@@ -95,11 +95,14 @@ function! s:commit(args)
 endfunction
 
 function! s:get_file(dir)
-  return printf('%s/%s/%s',
-        \   versions#get_root_dir(a:dir),
-        \   g:versions#type#git#commit#filepath,
-        \   g:versions#type#git#commit#filename
-        \ )
+  if isdirectory(printf('%s/%s', versions#get_root_dir(a:dir), g:versions#type#git#commit#filepath))
+    return printf('%s/%s/%s',
+          \   versions#get_root_dir(a:dir),
+          \   g:versions#type#git#commit#filepath,
+          \   g:versions#type#git#commit#filename
+          \ )
+  endif
+  return printf('%s/%s', versions#get_root_dir(a:dir), g:versions#type#git#commit#filename)
 endfunction
 
 function! s:SID()
