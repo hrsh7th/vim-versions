@@ -58,19 +58,19 @@ endfunction
 
 function! versions#get_working_dir()
   let working_dir = expand('%')
-  if exists('b:vimshell.current_dir')
+  if exists('b:vimshell.current_dir') && !filereadable(working_dir)
     let working_dir = b:vimshell.current_dir
   endif
-  if exists('b:vimfiler.current_dir')
+  if exists('b:vimfiler.current_dir') && !filereadable(working_dir)
     let working_dir = b:vimfiler.current_dir
   endif
-  if !isdirectory(working_dir) && exists('b:unite')
-    let working_dir = bufname(b:unite.prev_bufnr)
-    if filereadable(working_dir)
-      let working_dir = fnamemodify(working_dir, ':p:h')
-    endif
+  if exists('b:unite') && !filereadable(working_dir)
+    let working_dir = fnamemodify(bufname(b:unite.prev_bufnr), ':p')
   endif
-  return fnamemodify(working_dir, ':p:h')
+  if !filereadable(working_dir)
+    let working_dir = expand('%:p:h')
+  endif
+  return fnamemodify(working_dir, ':p')
 endfunction
 
 function! versions#command(command, command_args, global_args)
