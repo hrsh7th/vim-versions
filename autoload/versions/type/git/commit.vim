@@ -18,7 +18,7 @@ function! versions#type#git#commit#do(args)
   call vital#versions#execute('setlocal', 'textwidth=0')
   call vital#versions#execute('lcd', cwd)
 
-  let output = vital#versions#system(printf('git commit --dry-run --quiet -v -- %s',
+  let output = g:versions#type#git#commit#ignore . "\n" . vital#versions#system(printf('git commit --dry-run --quiet -v -- %s',
         \ join(
         \   map(deepcopy(a:args.paths),
         \     'vital#versions#substitute_path_separator(v:val)'
@@ -43,7 +43,7 @@ function! versions#type#git#commit#do(args)
   augroup VersionsGitCommit
     autocmd!
     autocmd! BufWinEnter <buffer> setlocal bufhidden=wipe nobuflisted noswapfile
-    autocmd! BufWritePre <buffer> %s/^#\_.*//g
+    autocmd! BufWritePre <buffer> g/^#\|^\s*$/d | execute '%s/' . g:versions#type#git#commit#ignore . '\_.*//g'
     autocmd! BufWritePost <buffer> call versions#type#git#commit#finish()
   augroup END
 endfunction
