@@ -18,16 +18,9 @@ let s:kind.action_table.file_delete = {
       \ 'is_invalidate_cache': 1,
       \ }
 function! s:kind.action_table.file_delete.func(candidates)
-  if !exists(':VimFiler')
-    echo 'vimfiler is not installed.'
-    return
-  endif
-
   let candidates = vital#versions#is_list(a:candidates) ? a:candidates : [a:candidates]
   for candidate in candidates
-    let candidate.action__path = candidate.source__args.path . '/' . candidate.action__status.path
-    let candidate.kind = 'file'
-    call unite#take_action('vimfiler__delete', candidate)
+    call delete(candidate.action__status.path)
   endfor
 endfunction
 
